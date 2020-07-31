@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import CardList from '../components/CardList';
-import SearchBox from '../components/SearchBox'
-import Scroll from '../components/Scroll'
+import SearchBox from '../components/SearchBox';
+import Scroll from '../components/Scroll';
+import ErrorBoundry from '../components/ErrorBoundry';
+
 // import { robots } from './robots';
 // Import do robots é diferente pq ele não é exportado como default, 
 // então usamos os brackets {}
@@ -37,16 +39,18 @@ class App extends Component {
         const filteredRobots = robots.filter(robot => {
             return robot.name.toLocaleLowerCase().includes(searchfield.toLocaleLowerCase())
         })
-    
-        if(!robots.length) {
+
+        if (!robots.length) {
             return <h1 className='tc f1'>Loading...</h1>
-        }else {
+        } else {
             return (
                 <div className='tc'>
                     <h1 className='f1'>RoboFriends</h1>
-                    <SearchBox searchChange={this.onSearchChange}/>
+                    <SearchBox searchChange={this.onSearchChange} />
                     <Scroll>
-                        <CardList robots={filteredRobots}/>
+                        <ErrorBoundry>
+                            <CardList robots={filteredRobots} />
+                        </ErrorBoundry>
                     </Scroll>
                 </div>
             );
